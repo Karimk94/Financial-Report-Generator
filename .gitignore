@@ -1,0 +1,20 @@
+Byte-compiled / optimized / DLL files
+pycache/
+*.pyc
+*.pyo
+*.pyd
+
+Environment variables
+This is the most important file to ignore! It contains your secret API keys.
+.env
+*.env
+
+PyInstaller distribution files
+These are the compiled executable files and are not part of the source code.
+/dist/
+/build/
+*.spec
+
+Application state files
+This file tracks which articles have been processed and is unique to each user.
+processed_articles.txt

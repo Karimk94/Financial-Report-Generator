@@ -1,6 +1,5 @@
-# This script scans broad financial news, uses Gemini AI to identify opportunities,
-# fetches historical price data from Alpha Vantage, and emails a professional,
-# production-ready report that gracefully handles API limits.
+# This is the stable, production-ready version of the script. It uses a reliable AI prompt
+# and parser, handles API limits gracefully, and generates a professional report.
 
 import os
 import smtplib
@@ -45,6 +44,7 @@ def get_financial_news(api_key, keywords):
         print(f"An error occurred while fetching news: {e}")
         return []
 
+# --- The Simple, Stable, and Reliable AI Prompt ---
 def analyze_market_with_gemini(api_key, articles_text):
     print("Analyzing market news with Gemini AI...")
     try:
@@ -58,11 +58,12 @@ def analyze_market_with_gemini(api_key, articles_text):
         2.  **Short-Term Opportunities (1-6 months):** List up to 5 companies.
         3.  **Long-Term Potential (1+ years):** List up to 5 companies.
 
-        **IMPORTANT RULES FOR COMPANY SELECTION:**
-        * **Prioritize publicly traded companies.** Your main goal is to find opportunities that can be invested in via the stock market.
-        * For each company, you **MUST** provide the **Company Name (Ticker Symbol):** Example: NVIDIA (NVDA).
-        * If the news is about a private company, you may include it but write **(Private Company)**.
-        * Provide a concise, one-sentence **Justification**.
+        **For each company, provide a single line in this exact format:**
+        * **Company Name (Ticker Symbol):** A concise, one-sentence justification based on the news.
+
+        **IMPORTANT RULES:**
+        * Prioritize publicly traded companies.
+        * If a company is private, write (Private Company) instead of a ticker.
         
         **--- NEWS ARTICLES TO ANALYZE ---**
         {articles_text}
@@ -112,7 +113,7 @@ def create_trendline_chart_url(historical_data):
     encoded_config = urllib.parse.quote(json.dumps(chart_config))
     return f"https://quickchart.io/chart?c={encoded_config}&width=150&height=50&backgroundColor=transparent&v=4"
 
-# --- UPDATED: Final parser handles numbered lists and bullet points ---
+# --- The Robust and Reliable Parser ---
 def parse_ai_report(report_text):
     data = {'overview': '', 'sentiment': 'Neutral', 'short_term': [], 'long_term': []}
     if not report_text: return data
@@ -128,8 +129,7 @@ def parse_ai_report(report_text):
 
         def parse_opportunities(text_block):
             opportunities = []
-            # This regex now handles both "* **Company (TICKER):**" and "1. **Company (TICKER):**"
-            pattern = re.compile(r'[\*\d]\.?\s*\*\*(.*?)\s*\((.*?)\):\*\*\s*(.*)', re.IGNORECASE)
+            pattern = re.compile(r'\*\s*\*\*(.*?)\s*\((.*?)\):\*\*\s*(.*)', re.IGNORECASE)
             matches = pattern.findall(text_block)
             for match in matches:
                 opportunities.append({'name': match[0].strip(), 'ticker': match[1].strip(), 'justification': match[2].strip()})
@@ -152,7 +152,7 @@ def send_email_report(report_data, recipients, smtp_config, av_api_key):
     unique_tickers = {opp['ticker'] for opp in all_opportunities}
     chart_data_cache = {}
     for i, ticker in enumerate(unique_tickers):
-        if i > 0:
+        if i > 0 and not API_LIMIT_REACHED:
             print("Pausing for 15 seconds to respect API rate limits...")
             time.sleep(15)
         chart_data_cache[ticker] = get_stock_trend(ticker, av_api_key)
@@ -213,7 +213,6 @@ def send_email_report(report_data, recipients, smtp_config, av_api_key):
     except Exception as e:
         print(f"Failed to send email: {e}")
 
-# --- UPDATED: Typo in environment variable fixed ---
 def main():
     news_api_key = os.getenv('NEWS_API_KEY')
     gemini_api_key = os.getenv('GEMINI_API_KEY')
@@ -224,9 +223,7 @@ def main():
         'user': os.getenv('SMTP_USER'),
         'password': os.getenv('EMAIL_PASSWORD')
     }
-    # Corrected the typo here from 'RECIENT_EMAILS' to 'RECIPIENT_EMAILS'
     recipient_emails = os.getenv('RECIPIENT_EMAILS', "").split(',')
-    
     if not all([news_api_key, gemini_api_key, av_api_key, *smtp_config.values(), recipient_emails and recipient_emails[0]]):
         print("Error: Missing one or more required environment variables, or recipient email is blank.")
         return
@@ -253,6 +250,6 @@ def main():
         print("Skipping email as report could not be generated.")
 
 if __name__ == '__main__':
-    print("--- Starting AI Market Scanner v2.9 (Final Production) ---")
+    print("--- Starting AI Market Scanner v4.0 (Final Stable) ---")
     main()
     print("--- Script finished. ---")

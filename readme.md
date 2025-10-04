@@ -1,18 +1,18 @@
 AI Financial Market Scanner
-This application is a powerful, automated tool that scans broad financial news from around the world using the NewsAPI. It then leverages Google's Gemini AI to analyze the collected articles, identify potential short-term and long-term investment opportunities, and sends a formatted report to a list of email recipients.
+This is a powerful, automated tool that scans financial news, uses Google's Gemini AI to identify and analyze investment opportunities, and sends a professional email report with visual AI sentiment analysis.
 
-Version 2.0 now includes individual 30-day trendline charts for each identified stock, providing immediate visual context to the AI's analysis.
+This version is 100% subscription-free. It relies solely on the NewsAPI and Gemini AI, using an elegant "Sentiment Bar" to visually represent the AI's findings for each stock, eliminating the need for unreliable third-party stock data APIs.
 
 Features
-Broad Market Analysis: Scans general financial news to discover new opportunities.
+Reliable AI Analysis: Uses a single, robust API call to get a structured JSON report from the Gemini AI, preventing parsing errors and respecting free-tier limits.
 
-AI-Powered Insights: Uses Google's Gemini 1.5 Flash model to identify promising companies.
+Subscription-Free: Does not require any paid subscriptions for stock data.
 
-Data-Driven Visuals: Fetches 30-day historical price data from Alpha Vantage to generate a trendline chart for each stock.
+Sentiment Visualization: Creates a clean, color-coded "Sentiment Bar" (Bullish, Bearish, or Neutral) for each opportunity, providing an instant visual summary of the AI's conclusion.
 
-Professional Email Reports: Delivers a modern, friendly, and visually-rich HTML report directly to your inbox.
+Fast and Efficient: Generates reports almost instantly without the need for slow, rate-limited API calls.
 
-Article Deduplication: Intelligently tracks processed articles to ensure you only get analysis on new information.
+Simplified Setup: Only requires two free API keys to get started.
 
 Setup and Installation
 1. Prerequisites
@@ -24,17 +24,15 @@ NewsAPI: Get a free key from newsapi.org.
 
 Gemini AI: Get a free key from Google AI Studio.
 
-Alpha Vantage: Get a free key from alphavantage.co.
-
 2. Configuration
 Place all the project files in a single folder.
 
 Rename .env.example to .env.
 
-Open the .env file with a text editor and fill in your details, including the new ALPHA_VANTAGE_API_KEY.
+Open the .env file with a text editor and fill in your two API keys and email details.
 
 3. Install Dependencies
 Simply double-click the install.bat file.
 
 Usage
-Double-click the run.bat file to run the script manually. For automation, package the script using PyInstaller and schedule it with Windows Task Scheduler.
+Double-click the run.bat file to run the script manually. For automation, you can package the script using PyInstaller and schedule it with Windows Task Scheduler.

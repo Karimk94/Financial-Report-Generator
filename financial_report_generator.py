@@ -39,11 +39,11 @@ def get_financial_news(api_key, keywords):
         print(f"An error occurred while fetching news: {e}")
         return []
 
-# --- NEW: Final, reliable AI prompt asking for sentiment on each stock ---
+# --- Final, reliable AI prompt asking for sentiment on each stock ---
 def analyze_market_with_gemini(api_key, articles_text):
     print("Analyzing market news with Gemini AI (Single Structured Call)...")
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+    model = genai.GenerativeModel('gemini-flash-latest')
     prompt = f"""
     Act as an expert market analyst. Analyze the following financial news articles. Your task is to return a single, valid JSON object that summarizes your findings.
 
